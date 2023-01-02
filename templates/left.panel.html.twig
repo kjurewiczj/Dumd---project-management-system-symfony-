@@ -1,10 +1,28 @@
-<div class="d-flex align-items-center bg-gradient-dark left-sidebar p-2 w-100 mt-2 border-radius-md flex-column">
-    <h1 class="display-6 text-light">DUMD</h1>
-    <ul class="nav nav-pills nav-fill flex-column p-1 w-100" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link mb-0 px-0 py-1 active" data-bs-toggle="tab" href="{{ path('app_project_index') }}" role="tab" aria-controls="preview" aria-selected="true">
-                Lista projektów
-            </a>
-        </li>
-    </ul>
+<div class="d-flex align-items-center bg-gradient-dark left-sidebar p-4 w-100 mt-2 border-radius-md flex-column">
+    <div class="left-menu-container d-flex flex-column">
+        <div class="dropdown">
+            <button type="button" class="btn bg-gradient-primary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user userIcon"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#">{{ app.user.email }}</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Wyloguj</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button type="button" class="btn bg-gradient-primary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-list"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button type="button" class="btn bg-gradient-primary dropdown-toggle" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            </ul>
+        </div>
+        
+    </div>
 </div>

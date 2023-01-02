@@ -4,4 +4,5 @@ require('@fortawesome/fontawesome-free/js/solid');
 require('@popperjs/core');
 require('bootstrap');
 
+
 import './styles/app.css';

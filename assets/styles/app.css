@@ -7,3 +7,8 @@ body {
 .left-sidebar {
     height: 98vh;
 }
+.icon{
+    font-size: 30px;
+    color: white;
+    margin-bottom: 10px;
+}

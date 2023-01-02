@@ -26,28 +26,8 @@
             <div class="col-md-11 m-0 ps-0">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-1 mt-2">
-                            <div class="row sticky-top">
-                                <div class="col-md-6">
-                                    <div class="left-menu-container d-flex flex-column">
-                                        <div class="dropdown">
-                                            <button class="btn btn-icon-only btn-2 bg-gradient-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-user"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <li><a class="dropdown-item" href="#">{{ app.user.email }}</a></li>
-                                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Wyloguj</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="dropdown">
-                                            <button class="btn btn-icon-only btn-2 bg-gradient-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-gear"></i>
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="col-md-1 mt-2 sticky-top">
+                            <div class="row ">
                                 <div class="col-md-6">
                                     <div class="left-menu-container d-flex flex-column">
                                         {% include('actions.html.twig') %}
@@ -55,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-11 mt-2">
+                        <div class="col-md-12 mt-2">
                             <div class="card p-5">
                                 {% block body %}
 
