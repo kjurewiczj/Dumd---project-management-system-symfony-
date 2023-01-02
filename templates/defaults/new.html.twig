@@ -1,12 +1,15 @@
 {% extends 'base.panel.html.twig' %}
+{% form_theme form 'defaults/bootstrap_5_horizontal_layout.html.twig' %}
 
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
     <h1 class="display-4">{{ title }}</h1>
     <hr/>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="btn bg-gradient-dark mt-4 mb-0">Dodaj projekt</button>
-    {{ form_end(form) }}
+    <div class="form-wrapper">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn bg-gradient-dark mt-4 mb-0">Dodaj</button>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
