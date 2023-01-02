@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logowanie{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-md-3 mb-4 mt-4">
+            <div class="card card-pricing">
+                <div class="card-header bg-gradient-dark text-center pt-4 pb-5 position-relative">
+                    <div class="z-index-1 position-relative">
+                        <h1 class="text-white mt-2 mb-0 display-5">Logowanie</h1>
+                        <h6 class="text-white">nie masz konta? <a href="{{ path('app_register') }}" class="text-light">Rejestracja</a></h6>
+                    </div>
+                </div>
+                <div class="position-relative mt-n5" style="height: 50px;">
+                    <div class="position-absolute w-100">
+                        <svg class="waves waves-sm" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+                            <defs>
+                                <path id="card-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+                            </defs>
+                            <g class="moving-waves">
+                                <use xlink:href="#card-wave" x="48" y="-1" fill="rgba(255,255,255,0.30"></use>
+                                <use xlink:href="#card-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"></use>
+                                <use xlink:href="#card-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"></use>
+                                <use xlink:href="#card-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"></use>
+                                <use xlink:href="#card-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"></use>
+                                <use xlink:href="#card-wave" x="48" y="16" fill="rgba(255,255,255,0.99)"></use>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-body text-center">
+                    <form method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {#  % if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        {% endif % #}
+                        <label for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        <label for="inputPassword">Hasło</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+                        <button class="btn bg-gradient-dark w-100 mt-4 mb-0" type="submit">
+                            Zaloguj
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

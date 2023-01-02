@@ -1,0 +1,10 @@
+{% if list_link is defined %}
+    <button class="btn btn-icon-only btn-2 btn-primary" type="button">
+        <a href="{{ path(list_link) }}" class="text-light"><i class="fa-solid fa-list"></i></a>
+    </button>
+{% endif %}
+{% if create_link is defined %}
+    <button class="btn btn-icon-only btn-2 btn-success" type="button">
+        <a href="{{ path(create_link) }}" class="text-light"><i class="fa-solid fa-plus"></i></a>
+    </button>
+{% endif %}
