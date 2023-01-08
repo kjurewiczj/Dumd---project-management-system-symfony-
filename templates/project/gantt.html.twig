@@ -1,0 +1,34 @@
+{% extends 'base.panel.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {% if gantt|length > 2 %}
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        {% for key, item in gantt %}
+                            <th>{{ gantt[key]|date('Y-m-d') }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        {% for key, item in gantt %}
+                            {% if task.startDate <= gantt[key] and task.endDate >= gantt[key] %}
+                                <td class="bg-primary"><a class="text-light" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">{{ task.name }}</a></td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        Zbyt mało zadań, aby wygenerować wykres gantta.
+    {% endif %}
+{% endblock %}

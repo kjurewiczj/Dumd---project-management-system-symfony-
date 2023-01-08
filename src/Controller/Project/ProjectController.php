@@ -4,7 +4,9 @@ namespace App\Controller\Project;
 
 use App\Entity\Project;
 use App\Form\Project\ProjectType;
+use App\Project\GanttHandler;
 use App\Repository\ProjectRepository;
+use App\Repository\TaskRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -51,21 +53,87 @@ class ProjectController extends AbstractController
             'title' => 'Dodawanie projektu',
             'form' => $form->createView(),
             'back_link' => 'app_project_index',
-            'list_link' => 'app_project_index'
+            'list_link' => 'app_project_index',
         ]);
     }
 
-    #[Route('/show/{id}', name: 'app_project_show')]
-    public function show(int $id, Request $request, ProjectRepository $projectRepository)
+    #[Route('/show/{projectId}', name: 'app_project_show', requirements: ['projectId' => '\d+'])]
+    public function show(int $projectId, Request $request, ProjectRepository $projectRepository, TaskRepository $taskRepository, PaginatorInterface $paginator): Response
     {
-        $project = $projectRepository->findOneBy(['id' => $id]);
+        if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
+            throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
+        }
+
+        $tasks = $taskRepository->findBy(['project' => $projectId]) ?? [];
+
+        $pagination = $paginator->paginate(
+            $tasks,
+            $request->query->getInt('page', 1),
+            30
+        );
 
         return $this->render('project/show.html.twig', [
             'title' => 'Projekt ' . $project->getName(),
             'project' => $project,
+            'pagination' => $pagination,
             'back_link' => 'app_project_index',
             'list_link' => 'app_project_index',
-            'create_link' => 'app_project_create'
+            'create_link' => 'app_task_create',
+            'edit_link' => 'app_project_edit',
+            'delete_link' => 'app_project_delete',
+            'gantt_link' => 'app_project_gantt',
+        ]);
+    }
+
+    #[Route('/edit/{projectId}', name: 'app_project_edit', requirements: ['projectId' => '\d+'], methods: ['GET', 'POST'])]
+    public function edit(int $projectId, Request $request, ProjectRepository $projectRepository): Response
+    {
+        if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
+            throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
+        }
+
+        $form = $this->createForm(ProjectType::class, $project);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $projectRepository->save($project, true);
+
+            return $this->redirectToRoute('app_project_show', ['projectId' => $projectId]);
+        }
+
+        return $this->render('defaults/edit.html.twig', [
+            'title' => 'Edycja projektu',
+            'form' => $form->createView(),
+            'back_link' => 'app_project_index',
+            'list_link' => 'app_project_index'
+        ]);
+    }
+
+    #[Route('/delete/{projectId}', name: 'app_project_delete', requirements: ['projectId' => '\d+'], methods: ['GET', 'POST'] )]
+    public function delete(int $projectId, Request $request, ProjectRepository $projectRepository): Response
+    {
+        if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
+            throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
+        }
+
+        $projectRepository->remove($project, true);
+
+        return $this->redirectToRoute('app_project_index');
+    }
+
+    #[Route('/gantt/{projectId}', name: 'app_project_gantt')]
+    public function generateGantt(int $projectId, GanttHandler $ganttHandler, ProjectRepository $projectRepository, TaskRepository $taskRepository)
+    {
+        if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
+            throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
+        }
+        $tasks = $taskRepository->findBy(['project' => $project]);
+        $gantt = $ganttHandler->generateGantt($project);
+
+        return $this->render('project/gantt.html.twig', [
+            'title' => 'Wykres gantta',
+            'gantt' => $gantt,
+            'tasks' => $tasks,
+            'list_link' => 'app_project_show'
         ]);
     }
 }

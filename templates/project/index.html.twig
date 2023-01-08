@@ -3,35 +3,38 @@
 {% block title %}Lista projektów{% endblock %}
 
 {% block body %}
-    <div class="count">
-        Łączna liczba projektów {{ pagination.getTotalItemCount }}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="count">
+                Łączna liczba projektów {{ pagination.getTotalItemCount }}
+            </div>
+        </div>
     </div>
-
-        {# table body #}
-        {% for project in pagination %}
-            <div class="card mb-4">
-                <div class="card-body pt-2">
-                    <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold my-2">{{ project.id }}</span>
-                    <a href="{{ path('app_project_show', {'id' : project.id}) }}" class="card-title h5 d-block text-darker">
-                        {{ project.name }}
-                    </a>
-                    <p class="card-description mb-4">
-                        {{ project.description }}
-                    </p>
-                    <div class="author align-items-center">
-                        <img src="./assets/img/kit/pro/team-2.jpg" alt="..." class="avatar shadow">
-                        <div class="name ps-3">
-                            {% if project.userCreated is not null %}
-                                <span>{{ project.userCreated.email }}</span>
-                            {% else %}
-                                <span>Brak użytkownika</span>
-                            {% endif %}
-                            <div class="stats">
-                                <small>{{ project.createdAt|date('Y-m-d H:i:s') }}</small>
-                            </div>
+    {% for project in pagination %}
+        <div class="card mb-4">
+            <div class="card-body pt-2">
+                <span class="text-gradient text-primary text-uppercase text-xs font-weight-bold my-2">{{ project.id }}</span>
+                <a href="{{ path('app_project_show', {'projectId' : project.id}) }}" class="card-title h5 d-block text-darker">
+                    {{ project.name }}
+                </a>
+                <p class="card-description mb-4">
+                    {{ project.description }}
+                </p>
+                <div class="author align-items-center">
+                    <img src="./assets/img/kit/pro/team-2.jpg" alt="..." class="avatar shadow">
+                    <div class="name ps-3">
+                        {% if project.userCreated is not null %}
+                            <span>{{ project.userCreated.email }}</span>
+                        {% else %}
+                            <span>Brak użytkownika</span>
+                        {% endif %}
+                        <div class="stats">
+                            <small>{{ project.createdAt|date('Y-m-d H:i:s') }}</small>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
+    {{ knp_pagination_render(pagination) }}
 {% endblock %}

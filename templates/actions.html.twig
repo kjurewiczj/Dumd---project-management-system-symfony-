@@ -1,10 +1,25 @@
 {% if list_link is defined %}
     <button class="btn btn-icon-only btn-2 btn-primary" type="button">
-        <a href="{{ path(list_link) }}" class="text-light"><i class="fa-solid fa-list"></i></a>
+        <a href="{{ path(list_link, {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="text-light"><i class="fa-solid fa-list"></i></a>
     </button>
 {% endif %}
 {% if create_link is defined %}
     <button class="btn btn-icon-only btn-2 btn-success" type="button">
-        <a href="{{ path(create_link) }}" class="text-light"><i class="fa-solid fa-plus"></i></a>
+        <a href="{{ path(create_link, {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="text-light"><i class="fa-solid fa-plus"></i></a>
+    </button>
+{% endif %}
+{% if edit_link is defined %}
+    <button class="btn btn-icon-only btn-2 btn-info" type="button">
+        <a href="{{ path(edit_link, {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="text-light"><i class="fa-solid fa-pencil"></i></a>
+    </button>
+{% endif %}
+{% if delete_link is defined %}
+    <button type="button" class="btn btn-icon-only btn-2 btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <i class="fa-solid fa-trash"></i>
+    </button>
+{% endif %}
+{% if gantt_link is defined %}
+    <button class="btn btn-icon-only btn-2 btn-info" type="button">
+        <a href="{{ path(gantt_link, {'projectId' : app.request.attributes.get('projectId')}) }}" class="text-light"><i class="fa-solid fa-chart-line"></i></a>
     </button>
 {% endif %}
