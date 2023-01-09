@@ -4,43 +4,72 @@
 
 {% block body %}
     <dl class="row d-flex align-items-center">
-        <dd class="col-sm-2 text-secondary"> <i class="fa-solid fa-hashtag text-xs"></i></dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.id }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary"> <i class="fa-solid fa-hashtag text-xs"></i></dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.id }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Nazwa</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.name }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Nazwa</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.name }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Opis</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.description }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Opis</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.description }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Projekt</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.project.name }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Projekt</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.project.name }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Czas</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.estimatedTime }}h</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Czas</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.estimatedTime }}h</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Przepracowany czas</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.workedTime }}h</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Przepracowany czas</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.workedTime }}h</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Data rozpoczęcia</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.startDate|date('Y-m-d') }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Data rozpoczęcia</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.startDate|date('Y-m-d') }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Data zakończenia</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.endDate|date('Y-m-d') }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Data zakończenia</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.endDate|date('Y-m-d') }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Progres</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.progress }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Postęp</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.progress }}%</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Przypisany do</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Przypisany do</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Priorytet</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.priority }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Priorytet</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.priorityName }}</dt>
+        </div>
         <hr class="mt-2">
-        <dd class="col-sm-2 text-secondary text-xs">Data utworzenia</dd>
-        <dt class="col-sm-10 text-dark text-xs">{{ task.createdAt|date('Y-m-d') }}</dt>
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Status</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.statusName }}</dt>
+        </div>
+        <hr class="mt-2">
+        <div class="d-flex">
+            <dd class="col-sm-2 text-secondary text-xs">Data utworzenia</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.createdAt|date('Y-m-d') }}</dt>
+        </div>
     </dl>
-    <div class="d-flex mb-2">
+    <div class="d-flex mb-2  justify-content-end">
         <div class="my-auto">
             <a href="{{ path('app_task_update', {'projectId' : task.project.id, 'taskId' : task.id}) }}" class="btn btn-outline-success mb-0">Aktualizuj zadanie</a>
         </div>
@@ -57,11 +86,13 @@
             <div class="card-body">
                 <blockquote class="blockquote text-white mb-0">
                     <p class="text-dark ms-3">{{ comment.content }}</p>
-                    <footer class="blockquote-footer text-gradient text-info text-sm ms-3">{{ comment.userCreated.email }} <cite title="Source Title">{{ comment.createdAt|date('Y-m-d H:i:s') }}</cite></footer>
+                    <footer class="blockquote-footer text-gradient text-info text-sm ms-3">{{ comment.userCreated.email }}
+                        <cite title="Source Title">{{ comment.createdAt|date('Y-m-d H:i:s') }}</cite></footer>
                 </blockquote>
             </div>
             <div class="card-body text-end d-flex align-items-center justify-content-end">
-                <a href="{{ path('app_task_comment_delete', {'taskId' : task.id, 'projectId' : task.project.id, 'commentId' : comment.id}) }}" class="btn btn-icon-only btn-3 btn-danger"><i class="fa-solid fa-trash"></i></a>
+                <a href="{{ path('app_task_comment_delete', {'taskId' : task.id, 'projectId' : task.project.id, 'commentId' : comment.id}) }}"
+                   class="btn btn-icon-only btn-3 btn-danger"><i class="fa-solid fa-trash"></i></a>
             </div>
         </div>
     {% endfor %}
