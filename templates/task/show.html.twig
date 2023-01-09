@@ -31,7 +31,7 @@
         <hr class="mt-2">
         <div class="d-flex">
             <dd class="col-sm-2 text-secondary text-xs">Przepracowany czas</dd>
-            <dt class="col-sm-10 text-dark text-xs">{{ task.workedTime }}h</dt>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.workedTime ?? 0 }}h</dt>
         </div>
         <hr class="mt-2">
         <div class="d-flex">
@@ -46,12 +46,12 @@
         <hr class="mt-2">
         <div class="d-flex">
             <dd class="col-sm-2 text-secondary text-xs">Postęp</dd>
-            <dt class="col-sm-10 text-dark text-xs">{{ task.progress }}%</dt>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.progress ?? 0 }}%</dt>
         </div>
         <hr class="mt-2">
         <div class="d-flex">
             <dd class="col-sm-2 text-secondary text-xs">Przypisany do</dd>
-            <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned }}</dt>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned.email }}</dt>
         </div>
         <hr class="mt-2">
         <div class="d-flex">
