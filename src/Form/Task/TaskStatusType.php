@@ -3,7 +3,9 @@
 namespace App\Form\Task;
 
 use App\Entity\Task;
+use App\Entity\User;
 use App\Project\Enum\PriorityEnum;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -69,6 +71,11 @@ class TaskStatusType extends AbstractType
             ->add('status', ChoiceType::class, [
                 'label' => 'Status',
                 'choices' => array_flip(Task::getStatuses()),
+            ])
+            ->add('userAssigned', EntityType::class, [
+                'label' => 'Przypisany do',
+                'class' => User::class,
+                'choice_label' => 'email',
             ])
         ;
     }
