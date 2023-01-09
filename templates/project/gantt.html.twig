@@ -10,7 +10,7 @@
                 <thead>
                     <tr>
                         {% for key, item in gantt %}
-                            <th>{{ gantt[key]|date('Y-m-d') }}</th>
+                            <th class="{{ gantt[key]|date('Y-m-d') == "now"|date('Y-m-d') ? 'bg-gradient-faded-primary text-light' : '' }}">{{ gantt[key]|date('Y-m-d') }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
