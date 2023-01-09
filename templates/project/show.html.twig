@@ -3,11 +3,19 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    {{ project.id }}
-    {{ dump(project) }}
+    <dl class="row">
+        <dt class="col-sm-2">ID projektu</dt>
+        <dd class="col-sm-10">{{ project.id }}</dd>
+        <dt class="col-sm-2">Nazwa</dt>
+        <dd class="col-sm-10">{{ project.name }}</dd>
+        <dt class="col-sm-2">Opis</dt>
+        <dd class="col-sm-10">{{ project.description }}</dd>
+        <dt class="col-sm-2">Stworzył</dt>
+        <dd class="col-sm-10">{{ project.userCreated.email }}</dd>
+    </dl>
     <div class="card">
         <div class="table-responsive">
-            <table class="table align-items-center mb-0">
+            <table class="table align-items-center mb-0 text-center">
                 <thead>
                 <tr>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
@@ -22,44 +30,61 @@
                 <tbody>
                 {% for task in pagination %}
                     <tr>
-                        <td class="align-items-center">
-                            <div class="d-flex px-2">
+                        <td class="align-middle text-start">
+                            <div class="d-flex px-2 justify-content-center">
                                 <div class="my-auto">
                                     <h6 class="mb-0 text-xs">#{{ task.id }}</h6>
                                 </div>
                             </div>
                         </td>
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0">{{ task.name }}</p>
+                        <td class="align-middle text-start">
+                            <div class="d-flex px-2 justify-content-center">
+                                <div class="my-auto">
+                                    <p class="mb-0 text-xs font-weight-bold">{{ task.name }}</p>
+                                </div>
+                            </div>
                         </td>
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0">{{ task.priority ?? 'Brak' }}</p>
+                        <td class="align-middle text-start">
+                            <div class="d-flex px-2 justify-content-center">
+                                <div class="my-auto">
+                                    <p class="mb-0 text-xs font-weight-bold">{{ task.priority ?? 'Brak' }}</p>
+                                </div>
+                            </div>
                         </td>
                         <td class="align-middle text-start">
                             <div class="d-flex align-items-center">
-                                <div class="progress-wrapper w-100">
+                                <div class="progress-wrapper w-100 d-flex align-items-center gap-1">
                                     <div class="progress-info">
                                         <div class="progress-percentage">
-                                            <span class="text-sm font-weight-bold">{{ task.progress ?? 0 }}%</span>
+                                            <span class="text-xs font-weight-bold">{{ task.progress ?? 0 }}%</span>
                                         </div>
                                     </div>
-                                    <div class="progress">
+                                    <div class="progress w-100">
                                         <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{ task.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ task.progress }}%;"></div>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0">{{ task.estimatedTime }}</p>
+                        <td class="align-middle text-start">
+                            <div class="d-flex px-2 justify-content-center">
+                                <div class="my-auto">
+                                    <p class="mb-0 text-xs font-weight-bold">{{ task.estimatedTime }}h</p>
+                                </div>
+                            </div>
                         </td>
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0">{{ task.workedTime }}</p>
+                        <td class="align-middle text-start">
+                            <div class="d-flex px-2 justify-content-center">
+                                <div class="my-auto">
+                                    <p class="mb-0 text-xs font-weight-bold">{{ task.workedTime }}h</p>
+                                </div>
+                            </div>
                         </td>
-                        <td class="align-middle">
-                            <button class="btn btn-link text-secondary mb-0">
-                                <i class="fa fa-ellipsis-v text-xs" aria-hidden="true"></i>
-                            </button>
-                            <a href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">Podgląd</a>
+                        <td class="align-middle text-start">
+                        <div class="d-flex px-2 justify-content-center">
+                                <div class="my-auto">
+                                    <a class="btn btn-outline-dark mb-0" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">Podgląd</a>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
