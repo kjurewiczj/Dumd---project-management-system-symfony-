@@ -4,3 +4,6 @@
 body {
     background-color: white;
 }
+.table td, .table th {
+    min-width: 150px;
+}

@@ -48,7 +48,7 @@ class Task implements CreatedAtInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $priority = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, options: ['default' => 'TODO_STATUS'])]
     private ?string $status = null;
 
     #[ORM\Column(nullable: true)]

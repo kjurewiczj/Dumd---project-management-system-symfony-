@@ -19,7 +19,7 @@
                     <tr>
                         {% for key, item in gantt %}
                             {% if task.startDate <= gantt[key] and task.endDate >= gantt[key] %}
-                                <td class="bg-primary"><a class="text-light" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">{{ task.name }}</a></td>
+                                <td class="bg-primary"><a class="text-light" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}"><marquee>#{{ task.id }} {{ task.name }}</marquee></a></td>
                             {% else %}
                                 <td></td>
                             {% endif %}
