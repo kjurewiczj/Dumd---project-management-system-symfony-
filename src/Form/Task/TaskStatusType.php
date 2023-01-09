@@ -3,8 +3,11 @@
 namespace App\Form\Task;
 
 use App\Entity\Task;
+use App\Project\Enum\PriorityEnum;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,6 +34,22 @@ class TaskStatusType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
+            ->add('progress', ChoiceType::class, [
+                'label' => 'Postęp pracy',
+                'choices' => [
+                    '0%' => 0,
+                    '10%' => 10,
+                    '20%' => 20,
+                    '30%' => 30,
+                    '40%' => 40,
+                    '50%' => 50,
+                    '60%' => 60,
+                    '70%' => 70,
+                    '80%' => 80,
+                    '90%' => 90,
+                    '100%' => 100,
+                ],
+            ])
             ->add('startDate', DateTimeType::class, [
                 'label' => 'Data planowanego rozpoczęcia zadania',
                 'widget' => 'single_text',
@@ -43,7 +62,14 @@ class TaskStatusType extends AbstractType
                 'input' => 'datetime_immutable',
                 'required' => false,
             ])
-            ->add('priority')
+            ->add('priority', ChoiceType::class, [
+                'label' => 'Priorytet',
+                'choices' => array_flip(Task::getPriorities()),
+            ])
+            ->add('status', ChoiceType::class, [
+                'label' => 'Status',
+                'choices' => array_flip(Task::getStatuses()),
+            ])
         ;
     }
 

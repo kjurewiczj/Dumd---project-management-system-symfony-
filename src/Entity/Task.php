@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Interfaces\Entity\CreatedAtInterface;
+use App\Project\Enum\PriorityEnum;
+use App\Project\Enum\StatusEnum;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -46,8 +48,41 @@ class Task implements CreatedAtInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $priority = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    public static function getPriorities(): array
+    {
+        return [
+            PriorityEnum::LOW_PRIORITY->name => 'Niski',
+            PriorityEnum::NORMAL_PRIORITY->name => 'Normalny',
+            PriorityEnum::HIGH_PRIORITY->name => 'Wysoki',
+            PriorityEnum::HIGHEST_PRIORITY->name => 'Pilny'
+        ];
+    }
+
+    public static function getStatuses(): array
+    {
+        return [
+            StatusEnum::TODO_STATUS->name => 'Do zrobienia',
+            StatusEnum::IN_PROGRESS_STATUS->name => 'W trakcie pracy',
+            StatusEnum::TESTING_STATUS->name => 'W trakcie testów',
+            StatusEnum::DONE_STATUS->name => 'Zakończono'
+        ];
+    }
+
+    public function getPriorityName(?string $default = ''): string
+    {
+        return !empty(self::getPriorities()[$this->getPriority()]) ? self::getPriorities()[$this->getPriority()] : $default;
+    }
+
+    public function getStatusName(?string $default = ''): string
+    {
+        return !empty(self::getStatuses()[$this->getStatus()]) ? self::getStatuses()[$this->getStatus()] : $default;
+    }
 
     public function getId(): ?int
     {
@@ -170,6 +205,18 @@ class Task implements CreatedAtInterface
     public function setPriority(?string $priority): self
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
