@@ -36,6 +36,7 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nazwa</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Priorytet</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Przypisany użytkownik</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Postęp</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Szacowany czas</th>
@@ -64,6 +65,13 @@
                             <div class="d-flex px-2 justify-content-center">
                                 <div class="my-auto">
                                     <p class="mb-0 text-xs font-weight-bold">{{ task.priorityName ?? 'Brak' }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle text-start">
+                            <div class="d-flex px-2 justify-content-center">
+                                <div class="my-auto">
+                                    <p class="mb-0 text-xs font-weight-bold">{{ task.userAssigned.email ?? 'Brak' }}</p>
                                 </div>
                             </div>
                         </td>

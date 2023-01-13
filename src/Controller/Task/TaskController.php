@@ -9,6 +9,7 @@ use App\Form\Task\CommentType;
 use App\Form\Task\TaskStatusType;
 use App\Form\Task\TaskType;
 use App\Repository\CommentRepository;
+use App\Repository\PermissionsRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -22,11 +23,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class TaskController extends AbstractController
 {
     #[Route('/create', name: 'app_task_create')]
-    public function new(int $projectId, ProjectRepository $projectRepository, TaskRepository $taskRepository, Request $request): Response
+    public function new(int $projectId, ProjectRepository $projectRepository, TaskRepository $taskRepository, Request $request, PermissionsRepository $permissionsRepository, Security $security): Response
     {
         if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
             throw $this->createNotFoundException('W systemie nie istnieje projektu o takim id.');
         }
+        if (!$permissions = $permissionsRepository->findOneBy(['project' => $project, 'user' => $security->getUser()])) {
+            throw $this->createNotFoundException('Nie masz uprawnień do tego działania.');
+        }
+        if (!$permissions->isCreateTask()) {
+            throw $this->createNotFoundException('Nie masz uprawnień do tego działania.');
+        }
+
         $task = new Task();
         $task->setCreatedAt(new \DateTimeImmutable());
         $task->setProject($project);
@@ -47,9 +55,9 @@ class TaskController extends AbstractController
     }
 
     #[Route('/show/{taskId}', name: 'app_task_show')]
-    public function show(int $projectId, int $taskId, ProjectRepository $projectRepository, TaskRepository $taskRepository, CommentRepository $commentRepository, Security $security, PaginatorInterface $paginator, Request $request): Response
+    public function show(int $projectId, int $taskId, ProjectRepository $projectRepository, TaskRepository $taskRepository, CommentRepository $commentRepository, Security $security, PaginatorInterface $paginator, Request $request, PermissionsRepository $permissionsRepository): Response
     {
-        if (!$projectRepository->findOneBy(['id' => $projectId])) {
+        if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
             throw $this->createNotFoundException('W systemie nie istnieje projektu o takim id.');
         }
         if (!$task = $taskRepository->findOneBy(['id' => $taskId])) {
@@ -82,8 +90,8 @@ class TaskController extends AbstractController
             'comments' => $pagination,
             'back_link' => 'app_project_show',
             'list_link' => 'app_project_show',
-            'create_link' => 'app_task_create',
-            'delete_link' => 'app_task_delete',
+            'create_link' => $permissionsRepository->findOneBy(['project' => $project, 'user' => $security->getUser(), 'create_task' => 1]) ? 'app_task_create' : null,
+            'delete_link' => $permissionsRepository->findOneBy(['project' => $project, 'user' => $security->getUser(), 'delete_task' => 1]) ? 'app_task_delete' : null,
         ]);
     }
 
@@ -134,13 +142,19 @@ class TaskController extends AbstractController
     }
 
     #[Route('/{taskId}/delete', name: 'app_task_delete')]
-    public function delete(int $projectId, int $taskId, ProjectRepository $projectRepository, TaskRepository $taskRepository): Response
+    public function delete(int $projectId, int $taskId, ProjectRepository $projectRepository, TaskRepository $taskRepository, PermissionsRepository $permissionsRepository, Security $security): Response
     {
-        if (!$projectRepository->findOneBy(['id' => $projectId])) {
+        if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
             throw $this->createNotFoundException('W systemie nie istnieje projektu o takim id.');
         }
         if (!$task = $taskRepository->findOneBy(['id' => $taskId])) {
             throw $this->createNotFoundException('W systemie nie istnieje zadanie o takim id.');
+        }
+        if (!$permissions = $permissionsRepository->findOneBy(['project' => $project, 'user' => $security->getUser()])) {
+            throw $this->createNotFoundException('Nie masz uprawnień do tego działania.');
+        }
+        if (!$permissions->isCreateTask()) {
+            throw $this->createNotFoundException('Nie masz uprawnień do tego działania.');
         }
 
         $taskRepository->remove($task, true);

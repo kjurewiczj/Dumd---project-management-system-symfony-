@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Interfaces\Entity\CreatedAtInterface;
 use App\Interfaces\Entity\UserCreatedInterface;
+use App\Project\Enum\SettingsEnum;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Repository\ProjectRepository;
 use DateTimeImmutable;
@@ -34,6 +35,9 @@ class Project implements CreatedAtInterface, UserCreatedInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    const ASSIGNED_USERS = 0;
+    const PERMISSIONS = 1;
 
     public function getId(): ?int
     {

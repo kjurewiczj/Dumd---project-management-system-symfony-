@@ -51,7 +51,7 @@
         <hr class="mt-2">
         <div class="d-flex">
             <dd class="col-sm-2 text-secondary text-xs">Przypisany do</dd>
-            <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned.email }}</dt>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned.email ?? 'Brak' }}</dt>
         </div>
         <hr class="mt-2">
         <div class="d-flex">

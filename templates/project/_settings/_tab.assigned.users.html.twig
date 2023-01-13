@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-6">
+        <h5>Przypisani użytkownicy</h5>
+        <hr>
+        <ul class="list-unstyled assigned-users-list">
+            {% for user in assignedUsers %}
+                <li class="mb-3">
+                    {% if user.user == project.userCreated %}
+                        <span class="badge bg-gradient-primary me-2">Właściciel</span>
+                    {% endif %}
+                    {{ user.user.email }}
+                    {% if user.user != project.userCreated %}
+                        <button class="badge bg-danger float-end border-0 remove-user-button" data-bs-toggle="modal" data-bs-target="#removeUserModal" data-project-id="{{ user.project.id }}" data-id="{{ user.user.id }}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-6 border-start">
+        <h5>Przypisz użytkownika do projektu</h5>
+        <hr>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" class="btn bg-gradient-dark mt-4 mb-0">Przypisz</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% include('modals/modals.html.twig') %}

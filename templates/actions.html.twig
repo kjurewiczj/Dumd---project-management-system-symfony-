@@ -1,17 +1,23 @@
-{% if list_link is defined %}
+{% if list_link is defined and list_link is not null %}
     <a href="{{ path(list_link, {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="text-light btn btn-icon-only btn-2 btn-primary"><i class="fa-solid fa-list"></i></a>
 {% endif %}
-{% if create_link is defined %}
+{% if create_link is defined and create_link is not null %}
     <a href="{{ path(create_link, {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="text-light btn btn-icon-only btn-2 btn-success"><i class="fa-solid fa-plus"></i></a>
 {% endif %}
-{% if edit_link is defined %}
+{% if edit_link is defined and edit_link is not null %}
     <a href="{{ path(edit_link, {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="text-light btn btn-icon-only btn-2 btn-info"><i class="fa-solid fa-pencil"></i></a>
 {% endif %}
-{% if delete_link is defined %}
+{% if delete_link is defined and delete_link is not null %}
     <button type="button" class="btn btn-icon-only btn-2 btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
         <i class="fa-solid fa-trash"></i>
     </button>
 {% endif %}
-{% if gantt_link is defined %}
-    <a href="{{ path(gantt_link, {'projectId' : app.request.attributes.get('projectId')}) }}" class="text-light btn btn-icon-only btn-2 btn-info"><i class="fa-solid fa-chart-line"></i></a>
+{% if statistics_link is defined and statistics_link is not null %}
+    <hr style="width: 38px;">
+{% endif %}
+{% if statistics_link is defined and statistics_link is not null %}
+    <a href="{{ path(statistics_link, {'projectId' : app.request.attributes.get('projectId')}) }}" class="text-light btn btn-icon-only btn-2 btn-info"><i class="fa-solid fa-chart-line"></i></a>
+{% endif %}
+{% if settings_link is defined and settings_link is not null %}
+    <a href="{{ path(settings_link, {'projectId' : app.request.attributes.get('projectId'), 'tab' : 0}) }}" class="text-light btn btn-icon-only btn-2 btn-info"><i class="fa-solid fa-gear"></i></a>
 {% endif %}

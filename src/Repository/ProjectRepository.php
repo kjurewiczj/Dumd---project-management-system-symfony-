@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,10 +22,12 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function getList(): array
+    public function getList(User $user): array
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.id', 'DESC')
+            ->join(\App\Entity\UserProject::class, 'up', 'WITH', 'p.id = up.project')
+            ->andWhere('up.user = :user')->setParameter('user', $user)
             ->getQuery()
             ->getResult();
     }

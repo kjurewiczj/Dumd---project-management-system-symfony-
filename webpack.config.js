@@ -22,7 +22,10 @@ Encore
      */
     .enableSassLoader()
     .addEntry('app', './assets/app.js')
+    .addEntry('project_settings', '/assets/project/project_settings.js')
     .addEntry('soft-design-system-js', './node_modules/soft-ui-design-system/assets/js/soft-design-system.js')
+
+
     .addStyleEntry('main', './assets/styles/app.css')
     .addStyleEntry('soft-design-system', './node_modules/soft-ui-design-system/assets/css/soft-design-system.css')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

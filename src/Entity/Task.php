@@ -43,6 +43,7 @@ class Task implements CreatedAtInterface
     private ?int $progress = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $userAssigned = null;
 
     #[ORM\Column(length: 255, nullable: true)]

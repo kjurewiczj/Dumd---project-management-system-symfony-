@@ -1,0 +1,29 @@
+{% extends 'base.panel.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h1>{{ title }}</h1>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="list-group">
+                <a href="{{ path('app_project_settings', {'projectId' : project.id, 'tab' : 0}) }}" class="list-group-item list-group-item-action {{ tab == 0 ? 'active' : '' }}">
+                    Przypisani użytkownicy
+                </a>
+                <a href="{{ path('app_project_settings', {'projectId' : project.id, 'tab' : 1}) }}" class="list-group-item list-group-item-action {{ tab == 1 ? 'active' : '' }}">
+                    Uprawnienia użytkowników
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10 border-start">
+            {% if tab == constant('App\\Entity\\Project::ASSIGNED_USERS') %}
+                {% include('project/_settings/_tab.assigned.users.html.twig') %}
+            {% elseif tab == constant('App\\Entity\\Project::PERMISSIONS') %}
+                {% include('project/_settings/_tab.permissions.html.twig') %}
+            {% else %}
+                <b>Brak ustawień</b>
+            {% endif %}
+        </div>
+    </div>
+    {{ encore_entry_script_tags('project_settings') }}
+{% endblock %}
