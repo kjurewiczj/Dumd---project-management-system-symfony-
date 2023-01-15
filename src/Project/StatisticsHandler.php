@@ -3,13 +3,20 @@
 namespace App\Project;
 
 use App\Entity\Project;
+use App\Entity\User;
 use App\Project\Enum\PriorityEnum;
 use App\Project\Enum\StatusEnum;
 use App\Repository\TaskRepository;
+use App\Repository\User\UserProjectRepository;
+use App\Repository\UserTaskRepository;
 
 class StatisticsHandler
 {
-    public function __construct(private TaskRepository $taskRepository){}
+    public function __construct(
+        private TaskRepository $taskRepository,
+        private UserProjectRepository $userProjectRepository,
+        private UserTaskRepository $userTaskRepository,
+    ){}
 
     public function generateGantt(Project $project): array
     {
@@ -46,6 +53,21 @@ class StatisticsHandler
                 if ($task->getEndDate() < new \DateTimeImmutable() && $task->getStatus() != StatusEnum::DONE_STATUS->name) {
                     $statistics['tasksAfterEndDate'][$task->getId()] = $task;
                 }
+            }
+        }
+
+        return $statistics;
+    }
+
+    public function generateStatistiscsForUser(User $user): array
+    {
+        $statistics = [];
+        $statistics['assignedTasks'] = $this->taskRepository->findBy(['userAssigned' => $user]);
+        $statistics['assignedProjects'] = $this->userProjectRepository->findBy(['user' => $user]);
+        $userTasks = $this->userTaskRepository->findBy(['user' => $user]);
+        foreach ($userTasks as $userTask) {
+            if ($userTask->getUser() === $user) {
+                array_push($statistics['assignedTasks'], $userTask->getTask());
             }
         }
 

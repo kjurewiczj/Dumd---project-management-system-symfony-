@@ -32,7 +32,7 @@ class TaskStatusType extends AbstractType
                 'required' => false,
             ])
             ->add('workedTime', NumberType::class, [
-                'label' => 'Przepracowany czas(w godzinach), aktualnie przepracowany czas to ' . $options['data']->getWorkedTime() . ' godzin.',
+                'label' => 'Przepracowany czas(w godzinach), aktualnie przepracowany czas to ' . ($options['data']->getWorkedTime() ?? 0) . ' godzin.',
                 'mapped' => false,
                 'required' => false,
             ])

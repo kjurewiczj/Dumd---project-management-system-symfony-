@@ -24,7 +24,7 @@ class Task implements CreatedAtInterface
     private ?string $description = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Project $project = null;
 
     #[ORM\Column(nullable: true, options: ['default' => 0])]

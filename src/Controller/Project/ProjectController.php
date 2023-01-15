@@ -111,7 +111,7 @@ class ProjectController extends AbstractController
             throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
         }
 
-        if (!$project->getUserCreated() != $security->getUser()) {
+        if ($project->getUserCreated() != $security->getUser()) {
             throw $this->createNotFoundException('Nie jesteś właścicielem tego projektu.');
         }
 
@@ -138,7 +138,7 @@ class ProjectController extends AbstractController
             throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
         }
 
-        if (!$project->getUserCreated() != $security->getUser()) {
+        if ($project->getUserCreated() !== $security->getUser()) {
             throw $this->createNotFoundException('Nie jesteś właścicielem tego projektu.');
         }
 

@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                 {% for task in pagination %}
-                    <tr>
+                    <tr class="{{ task.status == 'DONE_STATUS' ? 'opacity-5' : '' }}">
                         <td class="align-middle text-start">
                             <div class="d-flex px-2 justify-content-center">
                                 <div class="my-auto">
@@ -64,7 +64,7 @@
                         <td class="align-middle text-start">
                             <div class="d-flex px-2 justify-content-center">
                                 <div class="my-auto">
-                                    <p class="mb-0 text-xs font-weight-bold">{{ task.priorityName ?? 'Brak' }}</p>
+                                    <p class="mb-0 text-xs font-weight-bold {{ task.priority == 'HIGHEST_PRIORITY' ? 'text-danger' : ''}}">{{ task.priorityName ?? 'Brak' }}</p>
                                 </div>
                             </div>
                         </td>
@@ -99,7 +99,7 @@
                         <td class="align-middle text-start">
                             <div class="d-flex px-2 justify-content-center">
                                 <div class="my-auto">
-                                    <p class="mb-0 text-xs font-weight-bold">{{ task.estimatedTime }}h</p>
+                                    <p class="mb-0 text-xs font-weight-bold">{{ task.estimatedTime ?? 0 }}h</p>
                                 </div>
                             </div>
                         </td>

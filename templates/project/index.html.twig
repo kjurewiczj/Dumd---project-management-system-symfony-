@@ -25,18 +25,16 @@
                     <dd class="col-sm-11">{{ project.description }}</dd>
                 </dl>
                 <dl class="row d-flex align-items-center">
-                    <dt class="col-sm-1">
-                        <img src="{{ asset('images/avatar-woman.png') }}" class="img-fluid "/>
-                    </dt>
-                    <dd class="col-sm-11">
-                        <div class="name">
-                            {% if project.userCreated is not null %}
-                                <span>{{ project.userCreated.email }}</span>
-                            {% else %}
-                                <span>Brak użytkownika</span>
-                            {% endif %}
-                            <div class="stats">
-                                <small>{{ project.createdAt|date('Y-m-d H:i:s') }}</small>
+                    <dd class="col-sm-12">
+                        <div class="author align-items-center">
+                            <div class="avatar shadow bg-gradient-success">
+                                {{ project.userCreated.email|first }}
+                            </div>
+                            <div class="name ps-3">
+                                <span>{{ project.userCreated.email ?? 'Brak użytkownika' }}</span>
+                                <div class="stats">
+                                    <small>{{ project.createdAt|date('Y-m-d H:i:s') }}</small>
+                                </div>
                             </div>
                         </div>
                     </dd>

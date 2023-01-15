@@ -18,6 +18,7 @@ class Comment
     private ?string $content = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Task $task = null;
 
     #[ORM\Column]

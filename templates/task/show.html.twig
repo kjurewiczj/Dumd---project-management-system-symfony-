@@ -25,8 +25,8 @@
         </div>
         <hr class="mt-2">
         <div class="d-flex">
-            <dd class="col-sm-2 text-secondary text-xs">Czas</dd>
-            <dt class="col-sm-10 text-dark text-xs">{{ task.estimatedTime }}h</dt>
+            <dd class="col-sm-2 text-secondary text-xs">Szacowany czas</dd>
+            <dt class="col-sm-10 text-dark text-xs">{{ task.estimatedTime ?? 0 }}h</dt>
         </div>
         <hr class="mt-2">
         <div class="d-flex">
@@ -51,7 +51,25 @@
         <hr class="mt-2">
         <div class="d-flex">
             <dd class="col-sm-2 text-secondary text-xs">Przypisany do</dd>
-            <dt class="col-sm-10 text-dark text-xs">{{ task.userAssigned.email ?? 'Brak' }}</dt>
+            <dt class="col-sm-10 text-dark text-xs">
+                <div class="row">
+                    <div class="col-md-2">
+                        {{ task.userAssigned.email ?? 'Brak' }}
+                        {% if assignedUsers is not empty %}
+                            ,
+                            {% for assignedUser in assignedUsers %}
+                                {{ assignedUser.user.email }} ,
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 d-flex flex-row">
+                        {{ form_start(userAssignForm) }}
+                        {{ form_widget(userAssignForm) }}
+                        <button type="submit" class="btn bg-gradient-dark mt-4 mb-0 d-block">Przypisz</button>
+                        {{ form_end(userAssignForm) }}
+                    </div>
+                </div>
+            </dt>
         </div>
         <hr class="mt-2">
         <div class="d-flex">

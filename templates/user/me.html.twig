@@ -1,0 +1,55 @@
+{% extends 'base.panel.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <h2>{{title}}</h2>
+    <div class="row mt-4">
+        <div class="col-md-6 border-end">
+            <div class="col-md-12 mb-5">
+                <div class="author align-items-center">
+                    <div class="avatar shadow bg-gradient-success">
+                        {{ user.email|first }}
+                    </div>
+                    <div class="name ps-3">
+                        <span>{{ user.email }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <h4>Dostęp do projektów</h4>
+                <div class="col-md-6">
+                    <ul class="list-unstyled list-group list-group-flush">
+                        {% for project in statistics['assignedProjects'] %}
+                            <li class="list-group-item mb-2">
+                                <a href="{{ path('app_project_show', {'projectId' : project.project.id}) }}">{{ project.project.name }}</a>
+                                {% if project.project.userCreated == user %}
+                                    <span class="badge bg-gradient-primary me-2 float-end">Właściciel</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        {% if statistics['assignedProjects'] is empty %}
+                            Brak przypisanych zadań
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Przypisane zadania</h4>
+            <ul class="list-unstyled list-group list-group-flush">
+                {% for task in statistics['assignedTasks'] %}
+                    <li class="list-group-item mb-2">
+                        <a href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">#{{ task.id }} {{ task.name }}</a>
+                        <div class="float-end">
+                            {{ task.workedTime ?? 0 }}h/{{ task.estimatedTime ?? 0 }}h <span class="badge bg-gradient-dark">{{ task.endDate|date('Y-m-d') }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+                {% if statistics['assignedTasks'] is empty %}
+                    Brak przypisanych zadań
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ statistics['workedTime'] }}" aria-valuemin="0" aria-valuemax="{{ statistics['estimatedTime'] }}" style="width: {{ statistics['workedTime'] / statistics['estimatedTime'] * 100 }}%;"></div>
+                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ statistics['workedTime'] }}" aria-valuemin="0" aria-valuemax="{{ statistics['estimatedTime'] }}" style="width: {{ statistics['workedTime'] / (statistics['estimatedTime'] + 1) * 100 }}%;"></div>
                 </div>
             </div>
         </div>

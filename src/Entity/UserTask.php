@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\User\UserProjectRepository;
-use App\Validator\UserProject\CreateUserProject;
+use App\Repository\UserTaskRepository;
+use App\Validator\UserTask\CreateUserTask;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserProjectRepository::class)]
-class UserProject
+#[ORM\Entity(repositoryClass: UserTaskRepository::class)]
+class UserTask
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,13 +15,13 @@ class UserProject
     private ?int $id = null;
 
     #[ORM\ManyToOne]
-    #[CreateUserProject]
+    #[CreateUserTask]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $user = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private ?Project $project = null;
+    private ?Task $task = null;
 
     public function getId(): ?int
     {
@@ -40,14 +40,14 @@ class UserProject
         return $this;
     }
 
-    public function getProject(): ?Project
+    public function getTask(): ?Task
     {
-        return $this->project;
+        return $this->task;
     }
 
-    public function setProject(?Project $project): self
+    public function setTask(?Task $task): self
     {
-        $this->project = $project;
+        $this->task = $task;
 
         return $this;
     }

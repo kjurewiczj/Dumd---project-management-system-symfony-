@@ -14,7 +14,7 @@ class CreateUserProjectValidator extends ConstraintValidator
     {
         $root = $this->context->getRoot();
 
-        if (!$this->userProjectRepository->findOneBy(['user' => $root->getData()->getUser()])) {
+        if (!$this->userProjectRepository->findOneBy(['user' => $root->getData()->getUser(), 'project' => $root->getData()->getProject()])) {
             return;
         }
 

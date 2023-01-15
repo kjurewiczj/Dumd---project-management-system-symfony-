@@ -4,7 +4,9 @@ namespace App\Controller\Task;
 
 use App\Entity\Comment;
 use App\Entity\Task;
+use App\Entity\UserTask;
 use App\Form\Project\ProjectType;
+use App\Form\Task\AssignUserType;
 use App\Form\Task\CommentType;
 use App\Form\Task\TaskStatusType;
 use App\Form\Task\TaskType;
@@ -12,6 +14,7 @@ use App\Repository\CommentRepository;
 use App\Repository\PermissionsRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
+use App\Repository\UserTaskRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -55,7 +58,7 @@ class TaskController extends AbstractController
     }
 
     #[Route('/show/{taskId}', name: 'app_task_show')]
-    public function show(int $projectId, int $taskId, ProjectRepository $projectRepository, TaskRepository $taskRepository, CommentRepository $commentRepository, Security $security, PaginatorInterface $paginator, Request $request, PermissionsRepository $permissionsRepository): Response
+    public function show(int $projectId, int $taskId, ProjectRepository $projectRepository, TaskRepository $taskRepository, CommentRepository $commentRepository, Security $security, PaginatorInterface $paginator, Request $request, PermissionsRepository $permissionsRepository, UserTaskRepository $userTaskRepository): Response
     {
         if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
             throw $this->createNotFoundException('W systemie nie istnieje projektu o takim id.');
@@ -64,12 +67,23 @@ class TaskController extends AbstractController
             throw $this->createNotFoundException('W systemie nie istnieje zadanie o takim id.');
         }
         $comments = $commentRepository->findBy(['task' => $taskId]) ?? [];
+        $assignedUsers = $userTaskRepository->findBy(['task' => $taskId]) ?? [];
 
         $pagination = $paginator->paginate(
             $comments,
             $request->query->getInt('page', 1),
             5
         );
+
+        $userAssign = new UserTask();
+        $userAssign->setTask($task);
+        $userAssignForm = $this->createForm(AssignUserType::class, $userAssign);
+        $userAssignForm->handleRequest($request);
+        if ($userAssignForm->isSubmitted() && $userAssignForm->isValid()) {
+            $userTaskRepository->save($userAssign, true);
+
+            return $this->redirectToRoute('app_task_show', ['taskId' => $taskId, 'projectId' => $projectId]);
+        }
 
         $comment = new Comment();
         $comment->setCreatedAt(new \DateTimeImmutable());
@@ -88,6 +102,8 @@ class TaskController extends AbstractController
             'task' => $task,
             'commentForm' => $commentForm->createView(),
             'comments' => $pagination,
+            'userAssignForm' => $userAssignForm->createView(),
+            'assignedUsers' => $assignedUsers,
             'back_link' => 'app_project_show',
             'list_link' => 'app_project_show',
             'create_link' => $permissionsRepository->findOneBy(['project' => $project, 'user' => $security->getUser(), 'create_task' => 1]) ? 'app_task_create' : null,
