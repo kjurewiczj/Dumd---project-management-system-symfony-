@@ -35,21 +35,23 @@
             </dl>
             <div class="row">
                 <div class="col-md-12 user-filter">
-                    {% for key, user in assignedUsers %}
-                        {% set userKey = 'user' %}
-                        {% if user.userAssigned.id not in app.request.query.all %}
-                            <a href="{{ path('app_project_show', app.request.query.all|merge({'projectId' : user.project.id, (userKey~app.request.query.all|length) : user.userAssigned.id})) }}" class="avatar shadow bg-gradient-success cursor-pointer me-2 {{ user.userAssigned.id in app.request.query.all ? 'clickedUser' : '' }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ user.userAssigned.email }}">
-                                {{ user.userAssigned.email|first }}
-                            </a>
-                        {% else %}
-                            <a href="{{ path('app_project_show', app.request.query.all|filter(val => val != user.userAssigned.id)|merge({'projectId' : user.project.id})) }}" class="avatar shadow bg-gradient-success cursor-pointer me-2 {{ user.userAssigned.id in app.request.query.all ? 'clickedUser' : '' }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ user.userAssigned.email }}">
-                                {{ user.userAssigned.email|first }}
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                    <a href="{{ path('app_project_show', {'projectId' : project.id}) }}" class="avatar shadow bg-gradient-danger cursor-pointer me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Wyczyść">
-                        <i class="fa-solid fa-xmark"></i>
-                    </a>
+                    {% if assignedUsers|length > 0 %}
+                        {% for key, user in assignedUsers %}
+                            {% set userKey = 'user' %}
+                            {% if user.userAssigned.id not in app.request.query.all %}
+                                <a href="{{ path('app_project_show', app.request.query.all|merge({'projectId' : user.project.id, (userKey~app.request.query.all|length) : user.userAssigned.id})) }}" class="avatar shadow bg-gradient-success cursor-pointer me-2 {{ user.userAssigned.id in app.request.query.all ? 'clickedUser' : '' }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ user.userAssigned.email }}">
+                                    {{ user.userAssigned.email|first }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_project_show', app.request.query.all|filter(val => val != user.userAssigned.id)|merge({'projectId' : user.project.id})) }}" class="avatar shadow bg-gradient-success cursor-pointer me-2 {{ user.userAssigned.id in app.request.query.all ? 'clickedUser' : '' }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ user.userAssigned.email }}">
+                                    {{ user.userAssigned.email|first }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        <a href="{{ path('app_project_show', {'projectId' : project.id}) }}" class="avatar shadow bg-gradient-danger cursor-pointer me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Wyczyść">
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
