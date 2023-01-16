@@ -3,91 +3,98 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <div class="col-md-12 mb-4">
-        {% if gantt|length > 1 %}
-            <h1>{{ title }}</h1>
-            <div class="table-responsive">
-                <table class="table align-items-center mb-0">
-                    <thead>
-                    <tr>
-                        {% for key, item in gantt %}
-                            <th class="{{ gantt[key]|date('Y-m-d') == "now"|date('Y-m-d') ? 'bg-gradient-faded-primary text-light' : '' }}">{{ gantt[key]|date('Y-m-d') }}</th>
-                        {% endfor %}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for task in tasks %}
+    <div class="card p-5">
+        <div class="col-md-12 mb-6">
+            {% if gantt|length > 1 %}
+                <h2 class="mb-4">{{ title }}</h2>
+                <div class="table-responsive scrollbar scrollbar-morpheus-den">
+                    <table class="table align-items-center mb-1 force-overflow">
+                        <thead>
                         <tr>
                             {% for key, item in gantt %}
-                                {% if task.startDate <= gantt[key] and task.endDate >= gantt[key] %}
-                                    <td class="{% if task.priority == 'HIGHEST_PRIORITY' %} bg-danger {% elseif task.status == 'DONE_STATUS' %} bg-success opacity-5 {% else %} bg-primary {% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"><a class="text-light" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}"><marquee>#{{ task.id }} {{ task.name }}</marquee></a></td>
-                                {% else %}
-                                    <td></td>
-                                {% endif %}
+                                <th>
+                                    <span class="{{ gantt[key]|date('Y-m-d') == "now"|date('Y-m-d') ? 'p-2 bg-gradient-info rounded text-light' : '' }}">{{ gantt[key]|date('Y-m-d') }}</span>
+                                </th>
                             {% endfor %}
                         </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            Zbyt mało zadań, aby wygenerować wykres gantta.
-        {% endif %}
-    </div>
-    <div class="col-md-12 mb-4">
-        <h1>Statystyki projektu</h1>
-        <hr/>
-    </div>
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <h4>Godziny</h4>
-            <div class="progress-wrapper">
-                <div class="progress-info">
-                    <div class="d-flex justify-content-between">
-                        <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Przepracowany czas: {{ statistics['workedTime'] }} godzin</span>
-                        </div>
-                        <div class="progress-percentage">
-                            <span class="text-sm font-weight-bold">Szacowany czas: {{ statistics['estimatedTime'] }} godzin</span>
-                        </div>
-                    </div>
+                        </thead>
+                        <tbody>
+                        {% for task in tasks %}
+                            <tr>
+                                {% for key, item in gantt %}
+                                    {% if task.startDate <= gantt[key] and task.endDate >= gantt[key] %}
+                                        <td>
+                                            <span class="d-flex p-1 rounded {% if task.priority == 'HIGHEST_PRIORITY' %} bg-gradient-danger {% elseif task.status == 'DONE_STATUS' %} bg-gradient-success  {% else %} bg-gradient-secondary {% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ task.name }}">
+                                            <a class="d-flex w-100 text-light" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}"><marquee behavior="scroll" direction="left" scrollamount="3">#{{ task.id }} {{ task.name }}</marquee></a>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ statistics['workedTime'] }}" aria-valuemin="0" aria-valuemax="{{ statistics['estimatedTime'] }}" style="width: {{ statistics['workedTime'] / (statistics['estimatedTime'] + 1) * 100 }}%;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <h4>Zadania</h4>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card d-flex flex-row p-2 align-items-center justify-content-between">
-                        <p class="m-0 p-0">Otwarte zadania</p>
-                        <span class="badge bg-gradient-dark">{{ statistics['openedTasks'] }}</span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card d-flex flex-row p-2 align-items-center justify-content-between">
-                        <p class="m-0 p-0">Pilne zadania</p>
-                        <span class="badge bg-gradient-danger">{{ statistics['highestPriority'] }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <h4>Zadania po czasie</h4>
-        <div class="row ms-1 me-1">
-            {% if statistics['tasksAfterEndDate']|length > 0 %}
-                {% for outdatedTask in statistics['tasksAfterEndDate'] %}
-                    <div class="alert alert-danger text-light col-md-3" role="alert">
-                        <a href="{{ path('app_task_show', {'taskId' : outdatedTask.id, 'projectId' : outdatedTask.project.id}) }}"><strong>#{{ outdatedTask.id }}</strong> {{ outdatedTask.name }}</a>
-                    </div>
-                {% endfor %}
             {% else %}
-                Brak zadań po czasie.
+                Zbyt mało zadań, aby wygenerować wykres gantta.
             {% endif %}
         </div>
+        <div class="col-md-12 mb-4">
+            <h2>Statystyki projektu</h2>
+            <hr/>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <h4>Godziny</h4>
+                <div class="progress-wrapper">
+                    <div class="progress-info">
+                        <div class="d-flex justify-content-between">
+                            <div class="progress-percentage">
+                                <span class="text-sm font-weight-bold">Przepracowany czas: {{ statistics['workedTime'] }} godzin</span>
+                            </div>
+                            <div class="progress-percentage">
+                                <span class="text-sm font-weight-bold">Szacowany czas: {{ statistics['estimatedTime'] }} godzin</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ statistics['workedTime'] }}" aria-valuemin="0" aria-valuemax="{{ statistics['estimatedTime'] }}" style="width: {{ statistics['workedTime'] / (statistics['estimatedTime'] + 1) * 100 }}%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <h4>Zadania</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card d-flex flex-row p-2 align-items-center justify-content-between">
+                            <p class="m-0 p-0">Otwarte zadania</p>
+                            <span class="badge bg-gradient-dark">{{ statistics['openedTasks'] }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card d-flex flex-row p-2 align-items-center justify-content-between">
+                            <p class="m-0 p-0">Pilne zadania</p>
+                            <span class="badge bg-gradient-danger">{{ statistics['highestPriority'] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h4>Zadania po czasie</h4>
+            <div class="row ms-1 me-1">
+                {% if statistics['tasksAfterEndDate']|length > 0 %}
+                    {% for outdatedTask in statistics['tasksAfterEndDate'] %}
+                        <div class="alert alert-danger text-light col-md-3" role="alert">
+                            <a href="{{ path('app_task_show', {'taskId' : outdatedTask.id, 'projectId' : outdatedTask.project.id}) }}"><strong>#{{ outdatedTask.id }}</strong> {{ outdatedTask.name }}</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    Brak zadań po czasie.
+                {% endif %}
+            </div>
+        </div>
     </div>
-
 {% endblock %}

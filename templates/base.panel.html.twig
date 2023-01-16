@@ -16,7 +16,7 @@
     {% endblock %}
 </head>
 <body>
-    <div class="container-fluid m-0">
+    <div class="container-fluid m-0 p-0">
         <div class="row">
             <div class="col-md-12 m-0 p-0">
                 <div class="sticky-top">
@@ -26,7 +26,7 @@
             <div class="col-md-11 m-0 ps-0">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-1 mt-2">
+                        <div class="col-md-1 mt-2 d-flex align-items-center flex-column">
                             <div class="row sticky-top">
                                 <div class="col-md-12">
                                     <div class="left-menu-container d-flex flex-column">
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-md-11 mt-2">
-                            <div class="card p-5">
+                            <div>
                                 {% block body %}
 
                                 {% endblock %}

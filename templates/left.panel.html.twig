@@ -1,17 +1,17 @@
 <nav
-  class="navbar navbar-expand-sm navbar-dark z-index-3 py-3 shadow-none">
+  class="navbar navbar-expand-sm navbar-dark bg-gradient-dark z-index-3 py-3">
   <div class="container">
-    <span class="navbar-nav text-dark h1">
+    <a class="navbar-nav text-light h1" href="{{ path('app_project_index') }}">
       DUMD
-    </span>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav ms-auto gap-2">
         <div class="dropdown">
-            <button class="btn btn-icon-only btn-2 bg-gradient-dark" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-user"></i>
+            <button class="btn btn-icon-only bg-gradient-light  mb-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user" style="color: #252f40"></i>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="{{ path('app_user_me') }}">{{ app.user.email }}</a></li>
