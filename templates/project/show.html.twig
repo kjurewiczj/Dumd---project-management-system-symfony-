@@ -6,126 +6,160 @@
     <div class="card p-5 mb-4">
         <div class="card-body pt-4">
             <h5 class="card-title text-secondary text-uppercase">Szczegóły</h5>
-                <dl class="row">
-                    <div class="col">
-                        <div class="d-flex">
-                            <dd class="col-sm-2 text-secondary">ID projektu</dt>
-                            <dt class="col-sm-10 text-dark font-weight-bold">{{ project.id }}</dd>
-                        </div>
-                        <div class="d-flex">
-                            <dd class="col-sm-2 text-secondary">Nazwa</dt>
-                            <dt class="col-sm-10 text-dark font-weight-bold">{{ project.name }}</dd>
-                        </div>
+            <dl class="row">
+                <div class="col">
+                    <div class="d-flex">
+                        <dd class="col-sm-2 text-secondary">ID projektu
+                        </dd>
+                        <dt class="col-sm-10 text-dark font-weight-bold">
+                        {{ project.id }}</dt>
                     </div>
-                    <div class="col">
-                        <div class="d-flex">
-                            <dd class="col-sm-2 text-secondary">Opis</dt>
-                            <dt class="col-sm-10 text-dark font-weight-bold overflow-auto" style="max-height: 50px">{{ project.description }}</dd>
-                        </div>
-                        <div class="d-flex">
-                            <dd class="col-sm-2 text-secondary">Stworzył</dt>
-                            <dt class="col-sm-10 text-dark font-weight-bold">{{ project.userCreated.email ?? 'Brak użytkownika' }}</dd>
-                        </div>
+                    <div class="d-flex">
+                        <dd class="col-sm-2 text-secondary">Nazwa
+                        </dd>
+                        <dt class="col-sm-10 text-dark font-weight-bold">
+                        {{ project.name }}</dt>
                     </div>
-                </dl>
-            
-            <div class="card mt-5">
-                <div class="table-responsive">
-                    <table class="table align-items-center mb-0 text-center">
-                        <thead>
-                        <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nazwa</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Priorytet</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Przypisany użytkownik</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Postęp</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Szacowany czas</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Przepracowany czas</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for task in pagination %}
-                            <tr class="{{ task.status == 'DONE_STATUS' ? 'opacity-5' : '' }}">
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <h6 class="mb-0 text-xs">#{{ task.id }}</h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <p class="mb-0 text-xs font-weight-bold">{{ task.name }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <p class="mb-0 text-xs font-weight-bold {{ task.priority == 'HIGHEST_PRIORITY' ? 'text-danger' : ''}}">{{ task.priorityName ?? 'Brak' }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <p class="mb-0 text-xs font-weight-bold">{{ task.userAssigned.email ?? 'Brak' }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <p class="mb-0 text-xs font-weight-bold">{{ task.status ? task.statusName : 'Do zrobienia' }}</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex align-items-center">
-                                        <div class="progress-wrapper w-100 d-flex align-items-center gap-1">
-                                            <div class="progress-info">
-                                                <div class="progress-percentage">
-                                                    <span class="text-xs font-weight-bold">{{ task.progress ?? 0 }}%</span>
-                                                </div>
-                                            </div>
-                                            <div class="progress w-100">
-                                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{ task.progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ task.progress }}%;"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <p class="mb-0 text-xs font-weight-bold">{{ task.estimatedTime ?? 0 }}h</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                    <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <p class="mb-0 text-xs font-weight-bold">{{ task.workedTime ?? 0 }}h</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="align-middle text-start">
-                                <div class="d-flex px-2 justify-content-center">
-                                        <div class="my-auto">
-                                            <a class="btn btn-outline-dark mb-0" href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">Podgląd</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
-                {{ knp_pagination_render(pagination) }}
+                <div class="col">
+                    <div class="d-flex">
+                        <dd class="col-sm-2 text-secondary">Opis</dd>
+                        <dt class="col-sm-10 text-dark font-weight-bold overflow-auto" style="max-height: 50px">
+                        {{ project.description }}</dt>
+                    </div>
+                    <div class="d-flex">
+                        <dd class="col-sm-2 text-secondary">Stworzył</dd>
+                        <dt class="col-sm-10 text-dark font-weight-bold">{{ project.userCreated.email ?? 'Brak użytkownika' }}</dt>
+                    </div>
+                </div>
+            </dl>
+            <div class="row">
+                <div class="col-md-12 user-filter">
+                    {% for key, user in assignedUsers %}
+                        {% set userKey = 'user' %}
+                        {% if user.userAssigned.id not in app.request.query.all %}
+                            <a href="{{ path('app_project_show', app.request.query.all|merge({'projectId' : user.project.id, (userKey~app.request.query.all|length) : user.userAssigned.id})) }}" class="avatar shadow bg-gradient-success cursor-pointer me-2 {{ user.userAssigned.id in app.request.query.all ? 'clickedUser' : '' }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ user.userAssigned.email }}">
+                                {{ user.userAssigned.email|first }}
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_project_show', app.request.query.all|filter(val => val != user.userAssigned.id)|merge({'projectId' : user.project.id})) }}" class="avatar shadow bg-gradient-success cursor-pointer me-2 {{ user.userAssigned.id in app.request.query.all ? 'clickedUser' : '' }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ user.userAssigned.email }}">
+                                {{ user.userAssigned.email|first }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="{{ path('app_project_show', {'projectId' : project.id}) }}" class="avatar shadow bg-gradient-danger cursor-pointer me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Wyczyść">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </div>
             </div>
         </div>
+        <div class="card mt-5">
+            <div class="table-responsive">
+                <table class="table align-items-center mb-0 text-center">
+                    <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">#</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nazwa</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Priorytet
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Przypisany
+                            użytkownik
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Postęp</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Szacowany
+                            czas
+                        </th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            Przepracowany czas
+                        </th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in pagination %}
+                        <tr class="{{ task.status == 'DONE_STATUS' ? 'opacity-5' : '' }}">
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <h6 class="mb-0 text-xs">#{{ task.id }}</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <p class="mb-0 text-xs font-weight-bold">{{ task.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <p class="mb-0 text-xs font-weight-bold {{ task.priority == 'HIGHEST_PRIORITY' ? 'text-danger' : '' }}">{{ task.priorityName ?? 'Brak' }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <p class="mb-0 text-xs font-weight-bold">{{ task.userAssigned.email ?? 'Brak' }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <p class="mb-0 text-xs font-weight-bold">{{ task.status ? task.statusName : 'Do zrobienia' }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex align-items-center">
+                                    <div class="progress-wrapper w-100 d-flex align-items-center gap-1">
+                                        <div class="progress-info">
+                                            <div class="progress-percentage">
+                                                <span class="text-xs font-weight-bold">{{ task.progress ?? 0 }}%</span>
+                                            </div>
+                                        </div>
+                                        <div class="progress w-100">
+                                            <div class="progress-bar bg-info" role="progressbar"
+                                                 aria-valuenow="{{ task.progress }}" aria-valuemin="0"
+                                                 aria-valuemax="100" style="width: {{ task.progress }}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <p class="mb-0 text-xs font-weight-bold">{{ task.estimatedTime ?? 0 }}h</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <p class="mb-0 text-xs font-weight-bold">{{ task.workedTime ?? 0 }}h</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-start">
+                                <div class="d-flex px-2 justify-content-center">
+                                    <div class="my-auto">
+                                        <a class="btn btn-outline-dark mb-0"
+                                           href="{{ path('app_task_show', {'projectId' : task.project.id, 'taskId' : task.id}) }}">Podgląd</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
     </div>
     {% include('modals/modals.html.twig') %}
 {% endblock %}

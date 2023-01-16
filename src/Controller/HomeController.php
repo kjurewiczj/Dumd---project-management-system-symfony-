@@ -3,14 +3,19 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(Security $security): Response
     {
-        $this->redirectToRoute('app_projects_index');
+        if ($security->getUser() == null) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->redirectToRoute('app_project_index');
     }
 }

@@ -31,3 +31,12 @@ body {
 .container-fluid{
     overflow: hidden !important;
 }
+
+.clickedUser {
+    border: 2px solid #54a0ff;
+}
+
+.user-filter .avatar {
+    width: 35px;
+    height: 35px;
+}

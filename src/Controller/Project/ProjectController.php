@@ -15,6 +15,7 @@ use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use App\Repository\User\UserProjectRepository;
 use App\Repository\UserRepository;
+use App\Repository\UserTaskRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -73,7 +74,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/show/{projectId}', name: 'app_project_show', requirements: ['projectId' => '\d+'])]
-    public function show(int $projectId, Request $request, ProjectRepository $projectRepository, TaskRepository $taskRepository, PaginatorInterface $paginator, UserProjectRepository $userProjectRepository, Security $security, PermissionsRepository $permissionsRepository): Response
+    public function show(int $projectId, Request $request, ProjectRepository $projectRepository, TaskRepository $taskRepository, PaginatorInterface $paginator, UserProjectRepository $userProjectRepository, Security $security, PermissionsRepository $permissionsRepository, UserTaskRepository $userTaskRepository): Response
     {
         if (!$project = $projectRepository->findOneBy(['id' => $projectId])) {
             throw $this->createNotFoundException('W systemie nie istnieje projekt o takim id.');
@@ -81,13 +82,15 @@ class ProjectController extends AbstractController
         if (!$userProjectRepository->findOneBy(['project' => $project, 'user' => $security->getUser()])) {
             throw $this->createNotFoundException('Nie masz dostępu do tego projektu.');
         }
+        $requestQuery = $request->query;
+        $tasks = $taskRepository->getList($project, $requestQuery) ?? [];
 
-        $tasks = $taskRepository->findBy(['project' => $projectId]) ?? [];
+        $assignedUsers = $taskRepository->getAssignedUsersForProject($project) ?? [];
 
         $pagination = $paginator->paginate(
             $tasks,
             $request->query->getInt('page', 1),
-            30
+            25
         );
 
         return $this->render('project/show.html.twig', [
@@ -96,6 +99,7 @@ class ProjectController extends AbstractController
             'pagination' => $pagination,
             'back_link' => 'app_project_index',
             'list_link' => 'app_project_index',
+            'assignedUsers' => $assignedUsers,
             'create_link' => $permissionsRepository->findOneBy(['project' => $project, 'user' => $security->getUser(), 'create_task' => 1]) ? 'app_task_create' : null,
             'edit_link' => $project->getUserCreated() === $security->getUser() ? 'app_project_edit' : null,
             'delete_link' => $project->getUserCreated() === $security->getUser() ? 'app_project_delete' : null,
