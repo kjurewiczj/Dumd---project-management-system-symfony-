@@ -7,3 +7,27 @@ body {
 .table td, .table th {
     min-width: 150px;
 }
+.scrollbar-morpheus-den::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-morpheus-den::-webkit-scrollbar {
+    width: 12px;
+    height: 8px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar-morpheus-den::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #B9B7BD;
+}
+
+.scrollbar-morpheus-den {
+    scrollbar-color: #B9B7BD;
+}
+.container-fluid{
+    overflow: hidden !important;
+}
