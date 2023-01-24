@@ -11,12 +11,12 @@
                 Po usunięciu nie będzie możliwości cofnięcia akcji!
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Anuluj</button>
                 {% if app.request.attributes.get('_route') == 'app_task_show' %}
                     <a href="{{ path('app_task_delete', {'projectId' : app.request.attributes.get('projectId'), 'taskId' : app.request.attributes.get('taskId')}) }}" class="btn bg-gradient-danger">Usuń</a>
                 {% else %}
                     <a href="{{ path('app_project_delete', {'projectId' : app.request.attributes.get('projectId')}) }}" class="btn bg-gradient-danger">Usuń</a>
                 {% endif %}
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Anuluj</button>
             </div>
         </div>
     </div>
@@ -35,8 +35,8 @@
                 Po potwierdzeniu akcji użytkownik nie będzie miał dostępu do tego projeku. Natomiast będzie można go z powrotem dodać.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Anuluj</button>
                 <button type="button" class="btn bg-gradient-danger remove-modal-button" data-bs-dismiss="modal">Usuń</button>
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Anuluj</button>
             </div>
         </div>
     </div>
